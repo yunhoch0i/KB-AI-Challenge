@@ -40,7 +40,7 @@ message = [{
     "content": query
 }]
 
-response = openai.ChatCompletion.create(model=model, messages=message)
+response = openai.chat.completions.create(model=model, messages=message)
 print(response)
-answer = response['choices'][0]['message']['content']
+answer = response.choices[0].message.content
 print(answer)
