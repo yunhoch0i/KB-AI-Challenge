@@ -25,7 +25,7 @@ def find_user_data(name, data):
     return None
 
 def tag_transaction(transaction):
-    """거래 내역에 태그를 추가하는 함수."""
+    ## 거래 내역에 태그를 추가하는 함수
     description = transaction[1]  # 거래 설명이 두 번째 항목이라고 가정
     for category, keywords in CATEGORIES.items():
         if any(keyword in description for keyword in keywords):
@@ -41,7 +41,7 @@ def analyze_spending(transactions):
     return spending
 
 def compare_with_peers(user_data, data):
-    """비슷한 소득을 가진 사람들과 소비 및 저축을 비교."""
+    ## 비슷한 소득을 가진 사람들과 소비 및 저축을 비교
     user_income = user_data['income']
     peer_spending = []
     peer_savings = []
@@ -76,7 +76,7 @@ def recommend_card_gpt(spending, user_name):
     return response['choices'][0]['message']['content']
 
 def monthly_summary(user_data, data):
-    """사용자의 한 달 소비 내역을 요약."""
+    ## 사용자의 한 달 소비 내역 요약
     transactions = user_data.get('transactions_Withdrawal', [])
     spending = analyze_spending(transactions)
     avg_peer_spending, avg_peer_savings = compare_with_peers(user_data, data)
@@ -87,7 +87,6 @@ def monthly_summary(user_data, data):
         f"{user_data['name']}님의 이번 달 소비 내역은 다음과 같습니다:\n"
         f"{spending_summary}\n\n"
         f"비슷한 소득을 가진 사람들의 평균 소비 금액은 {avg_peer_spending}원이며, 평균 저축 금액은 {avg_peer_savings}원입니다.\n"
-        "이를 바탕으로 가계부를 검토해 보세요."
     )
     
     return summary
