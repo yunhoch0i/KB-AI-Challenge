@@ -1,8 +1,7 @@
 import openai
 import json
 
-OPENAI_API_KEY = ("sk-proj-exvyGtjq5SUu2Vt3nUwcDmM-iLdEMYPHTYSTmL714cSrebkzxL7qO_T66w"
-                  "T3BlbkFJ9tjQ2KPMvjHHnrvs-Dh3kYYbDm3vXh55AYJWZROTLTWsYj_99MUiQlz3cA")
+OPENAI_API_KEY = ("")
 openai.api_key = OPENAI_API_KEY
 
 with open("DataSet.json", "r") as f:
