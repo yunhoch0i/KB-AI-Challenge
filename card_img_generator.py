@@ -11,8 +11,7 @@ pre_file_path = "./design_img.jpg"
 if os.path.isfile(pre_file_path):
     os.remove(pre_file_path)
 
-OPENAI_API_KEY = ("sk-proj-exvyGtjq5SUu2Vt3nUwcDmM-iLdEMYPHTYSTmL714cSrebkzxL7qO_T66w"
-                  "T3BlbkFJ9tjQ2KPMvjHHnrvs-Dh3kYYbDm3vXh55AYJWZROTLTWsYj_99MUiQlz3cA")
+OPENAI_API_KEY = ("")
 client = openai.OpenAI(api_key=OPENAI_API_KEY)
 
 customer_name = "최윤호"
