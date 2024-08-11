@@ -1,4 +1,3 @@
-# 필요한 라이브러리 로드
 import openai
 import os
 import json
@@ -9,8 +8,7 @@ load_dotenv()
 
 # OpenAI API 키 설정
 OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
-client = openai.OpenAI(api_key= OPENAI_API_KEY)
-
+client = openai.OpenAI(api_key=OPENAI_API_KEY)
 
 # 데이터셋 로드
 with open('./DataSet/User_DataSet.json', 'r', encoding='UTF-8') as f:
@@ -30,11 +28,12 @@ def find_user_data(name, data):
     return None
 
 def tag_transaction(transaction):
-    ## 거래 내역에 태그를 추가하는 함수
+    # 거래 내역에 태그를 추가하는 함수
     description = transaction[1]  # 거래 설명이 두 번째 항목이라고 가정
     for category, keywords in CATEGORIES.items():
-        if any(keyword in description for keyword in keywords):
-            return category
+        for keyword in keywords:
+            if keyword in description:
+                return category
     return "기타"  # 해당하는 카테고리가 없을 경우 기본값
 
 def analyze_spending(transactions):
