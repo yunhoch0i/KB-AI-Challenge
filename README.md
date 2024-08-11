@@ -1,6 +1,7 @@
 # 💳 ChatGPT, 소비내역 태그를 이용한 가계부 및 카드 추천 서비스
 
 <br>
+
 ## 팀원 구성
 
 <div align="center">
