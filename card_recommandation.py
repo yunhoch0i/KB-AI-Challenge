@@ -4,7 +4,7 @@ import json
 import sys
 from collections import defaultdict
 from dotenv import load_dotenv
-import financial_ledger
+import financial_ledger_mod
 import income_compare
 import card_img_generator
 
@@ -109,7 +109,7 @@ def handle_user_input(user_name):
 
 
         if "가계부" in user_input or "요약" in user_input:
-            summary = financial_ledger.monthly_summary(user_data, data)
+            summary = financial_ledger_mod.monthly_summary(user_data, data)
             print(summary)
         elif "소득 수준" in user_input or "소득 비교" in user_input:
             answer = income_compare.compare(user_name)
@@ -118,7 +118,7 @@ def handle_user_input(user_name):
         elif "디자인" in user_input or "이미지" in user_input:
             card_img_generator.create_card_img(user_name)
 
-        elif "추천" in recommendation or "카드" in recommendation:
+        elif "카드" in recommendation:
             print(recommendation)
 
         else:

@@ -34,7 +34,7 @@ def tag_transaction(transaction):
         for keyword in keywords:
             if keyword in description:
                 return category
-    return "기타"  # 해당하는 카테고리가 없을 경우 기본값
+    return category  # 해당하는 카테고리가 없을 경우 기본값
 
 def analyze_spending(transactions):
     spending = defaultdict(int)
@@ -84,7 +84,7 @@ def monthly_summary(user_data, data):
     spending = analyze_spending(transactions)
     # avg_peer_spending, avg_peer_savings = compare_with_peers(user_data, data)
 
-    spending_summary = "\n".join([f"{category}: {amount}원" for category, amount in spending.items()])
+    spending_summary = "\n".join([f"가장 많이 사용한 내역은 {category}: {amount}원" for category, amount in spending.items()])
     
     summary = (
         f"{user_data['name']}님의 이번 달 소비 내역은 다음과 같습니다:\n"

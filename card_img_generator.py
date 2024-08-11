@@ -44,12 +44,12 @@ def create_card_img(customer_name):
         if cur_withdrawal[3] not in customer_consume_list and cur_withdrawal[3] != "None":
             customer_consume_list.append(cur_withdrawal[3])
 
-    print(customer_consume_list)
+    #print(customer_consume_list)
     query = str(customer_age) + ("세이고 성별은 " + customer_gender + "이며 ")
     for cur_str in customer_consume_list:
         query += cur_str + ", "
     query += "등과 관련있는 사람에게 어울리는 일러스트를 그려줘"
-    print(query)
+    #print(query)
 
     response = client.images.generate(
         model="dall-e-3",
