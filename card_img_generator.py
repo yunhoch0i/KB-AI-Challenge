@@ -24,7 +24,7 @@ customer_name = "최윤호"
 customer_consume_list = []
 customer_age = 0
 
-with open("User_DataSet.json", "r") as f:
+with open("./DataSet/User_DataSet.json", "r") as f:
     data_set = json.load(f)
 def create_card_img(customer_name):
     customer_info = 0
