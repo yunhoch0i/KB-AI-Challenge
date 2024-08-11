@@ -3,12 +3,15 @@ import openai
 import os
 import json
 from collections import defaultdict
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # OpenAI API 키 설정
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
 # 데이터셋 로드
-with open(os.path.join(challenge_dir, 'DataSet/User_DataSet.json'), 'r') as f:
+with open('./DataSet/User_DataSet.json', 'r') as f:
     data = json.load(f)
 
 # 소비 카테고리 정의 (예: 식비, 문화생활비, 생필품 등)
@@ -40,21 +43,21 @@ def analyze_spending(transactions):
         spending[category] += amount
     return spending
 
-def compare_with_peers(user_data, data):
-    ## 비슷한 소득을 가진 사람들과 소비 및 저축을 비교
-    user_income = user_data['income']
-    peer_spending = []
-    peer_savings = []
-    
-    for peer in data:
-        if abs(peer['income'] - user_income) <= 500000:  # 비슷한 소득 범위 설정
-            peer_spending.append(peer['total_spent'])
-            peer_savings.append(peer['savings'])
-
-    avg_peer_spending = sum(peer_spending) / len(peer_spending) if peer_spending else 0
-    avg_peer_savings = sum(peer_savings) / len(peer_savings) if peer_savings else 0
-
-    return avg_peer_spending, avg_peer_savings
+# def compare_with_peers(user_data, data):
+#     ## 비슷한 소득을 가진 사람들과 소비 및 저축을 비교
+#     user_income = user_data['incomeLevel']
+#     peer_spending = []
+#     peer_savings = []
+#
+#     for peer in data:
+#         if abs(peer['incomeLevel'] - user_income) <= 500000:  # 비슷한 소득 범위 설정
+#             peer_spending.append(peer['total_spent'])
+#             peer_savings.append(peer['savings'])
+#
+#     avg_peer_spending = sum(peer_spending) / len(peer_spending) if peer_spending else 0
+#     avg_peer_savings = sum(peer_savings) / len(peer_savings) if peer_savings else 0
+#
+#     return avg_peer_spending, avg_peer_savings
 
 def recommend_card_gpt(spending, user_name):
     spending_summary = "\n".join([f"{category}: {amount}원" for category, amount in spending.items()])
@@ -64,7 +67,6 @@ def recommend_card_gpt(spending, user_name):
         f"{spending_summary}\n\n"
         "이 소비 패턴을 기반으로 추천할 만한 신용카드는 무엇인가요?"
     )
-    
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
@@ -79,14 +81,14 @@ def monthly_summary(user_data, data):
     ## 사용자의 한 달 소비 내역 요약
     transactions = user_data.get('transactions_Withdrawal', [])
     spending = analyze_spending(transactions)
-    avg_peer_spending, avg_peer_savings = compare_with_peers(user_data, data)
+    # avg_peer_spending, avg_peer_savings = compare_with_peers(user_data, data)
 
     spending_summary = "\n".join([f"{category}: {amount}원" for category, amount in spending.items()])
     
     summary = (
         f"{user_data['name']}님의 이번 달 소비 내역은 다음과 같습니다:\n"
-        f"{spending_summary}\n\n"
-        f"비슷한 소득을 가진 사람들의 평균 소비 금액은 {avg_peer_spending}원이며, 평균 저축 금액은 {avg_peer_savings}원입니다.\n"
+        f"{spending_summary}\n"
+       # f"비슷한 소득을 가진 사람들의 평균 소비 금액은 {avg_peer_spending}원이며, 평균 저축 금액은 {avg_peer_savings}원입니다.\n"
     )
     
     return summary
@@ -114,5 +116,5 @@ def handle_user_input(user_name, data):
             print(recommendation)
 
 # 챗봇 시작
-user_name = input("사용자의 이름을 입력하세요: ")
-handle_user_input(user_name, data)
+# user_name = input("사용자의 이름을 입력하세요: ")
+# handle_user_input(user_name, data)
