@@ -45,8 +45,10 @@ def create_card_img(customer_name):
             customer_consume_list.append(cur_withdrawal[3])
 
     print(customer_consume_list)
-    query= str(customer_age) + ("세이고 성별은 " + customer_gender + "이며 " + json.dumps(customer_consume_list) + "등에 관심이 있는"
-                            " 사람에게 어울리는 일러스트를 그려줘")
+    query = str(customer_age) + ("세이고 성별은 " + customer_gender + "이며 ")
+    for cur_str in customer_consume_list:
+        query += cur_str + ", "
+    query += "등과 관련있는 사람에게 어울리는 일러스트를 그려줘"
     print(query)
 
     response = client.images.generate(
