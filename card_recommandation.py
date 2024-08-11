@@ -6,15 +6,16 @@ from collections import defaultdict
 from dotenv import load_dotenv
 import financial_ledger
 import income_compare
-# import card_img_generator
+import card_img_generator
 
 load_dotenv()
 
 # OpenAI API 키 설정
-openai.api_key = os.getenv('OPENAI_API_KEY')
+OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
+client = openai.OpenAI(api_key= OPENAI_API_KEY)
 
 # JSON 파일 로드
-with open('./DataSet/User_DataSet.json', 'r') as f:
+with open('./DataSet/User_DataSet.json', 'r', encoding='UTF-8') as f:
     data = json.load(f)
 
 # 사용자 이름으로 데이터를 검색하는 함수
@@ -43,7 +44,7 @@ def recommend_card_gpt(spending, user_name):
         "이 소비 패턴을 기반으로 추천할 만한 신용카드는 무엇인가요?"
     )
 
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant who recommends credit cards based on spending patterns."},
@@ -51,7 +52,7 @@ def recommend_card_gpt(spending, user_name):
         ]
     )
 
-    return response['choices'][0]['message']['content']
+    return response.choices[0].message.content
 
 # 카테고리, 소비패턴에 따른 카드 추천
 def recommend_card_based_on_input(user_input, user_name, user_data):
@@ -69,7 +70,7 @@ def recommend_card_based_on_input(user_input, user_name, user_data):
         f"{spending_summary}"
     )
 
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a knowledgeable assistant who provides recommendations based on user input and spending patterns."},
@@ -77,17 +78,17 @@ def recommend_card_based_on_input(user_input, user_name, user_data):
         ]
     )
 
-    return response['choices'][0]['message']['content']
+    return response.choices[0].message.content
 
 # 일반 질문 처리
 def gpt_general_response(user_input):
     # 열받는 기본 출력 문장 삭제
     prompt = f"{user_input}\nAnswer concisely and directly without any preamble."
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}]
     )
-    return response.choices[0].message['content']
+    return response.choices[0].message.content
 
 # 입력에 따른 정보 처리
 def handle_user_input(user_name):
@@ -113,9 +114,9 @@ def handle_user_input(user_name):
         elif "소득 수준" in user_input or "소득 비교" in user_input:
             answer = income_compare.compare(user_name)
             print(answer)
-        #
-        # elif "디자인" in user_input or "이미지" in user_input:
-        #     card_img_generator.create_card_img(user_name)
+
+        elif "디자인" in user_input or "이미지" in user_input:
+            card_img_generator.create_card_img(user_name)
 
         elif "추천" in recommendation or "카드" in recommendation:
             print(recommendation)

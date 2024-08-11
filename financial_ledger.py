@@ -8,10 +8,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # OpenAI API 키 설정
-openai.api_key = os.getenv('OPENAI_API_KEY')
+OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
+client = openai.OpenAI(api_key= OPENAI_API_KEY)
+
 
 # 데이터셋 로드
-with open('./DataSet/User_DataSet.json', 'r') as f:
+with open('./DataSet/User_DataSet.json', 'r', encoding='UTF-8') as f:
     data = json.load(f)
 
 # 소비 카테고리 정의 (예: 식비, 문화생활비, 생필품 등)
@@ -67,7 +69,7 @@ def recommend_card_gpt(spending, user_name):
         f"{spending_summary}\n\n"
         "이 소비 패턴을 기반으로 추천할 만한 신용카드는 무엇인가요?"
     )
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant who recommends credit cards based on spending patterns."},
@@ -75,7 +77,7 @@ def recommend_card_gpt(spending, user_name):
         ]
     )
     
-    return response['choices'][0]['message']['content']
+    return response.choices[0].message.content
 
 def monthly_summary(user_data, data):
     ## 사용자의 한 달 소비 내역 요약

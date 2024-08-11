@@ -6,9 +6,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # OpenAI API 키 설정
-openai.api_key = os.getenv('OPENAI_API_KEY')
+OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
+client = openai.OpenAI(api_key= OPENAI_API_KEY)
 
-with open("./DataSet/User_DataSet.json", "r") as f:
+with open("./DataSet/User_DataSet.json", "r", encoding='UTF-8') as f:
     data_set = json.load(f)
 
 
@@ -45,7 +46,10 @@ def compare(user_name):
         "content": query
     }]
 
-    response = openai.ChatCompletion.create(model=model, messages=message)
+    # response = openai.ChatCompletion.create(model=model, messages=message)
+    response = client.chat.completions.create(
+        model=model,
+        messages=message
+    )
     answer = response.choices[0].message.content
     return answer
-
