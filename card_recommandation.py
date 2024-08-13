@@ -129,5 +129,5 @@ def handle_user_input(user_name):
         sys.stdout.flush()
 
 # 사용 시작
-user_name = input("사용자의 이름을 입력하세요: ")
-handle_user_input(user_name)
+# user_name = input("사용자의 이름을 입력하세요: ")
+# handle_user_input(user_name)
