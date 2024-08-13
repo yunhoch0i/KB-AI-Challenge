@@ -82,7 +82,7 @@ def recommend_card_based_on_input(user_input, user_name, user_data):
 
 # 일반 질문 처리
 def gpt_general_response(user_input):
-    # 열받는 기본 출력 문장 삭제
+    # 기본 출력 문장 삭제
     prompt = f"{user_input}\nAnswer concisely and directly without any preamble."
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
